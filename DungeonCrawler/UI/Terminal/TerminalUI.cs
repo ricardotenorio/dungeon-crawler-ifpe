@@ -9,16 +9,29 @@ namespace DungeonCrawler.UI.Terminal
     class TerminalUI : IUserInterface
     {
         private readonly string _border = "==============================================";
-        private Dictionary<char, ConsoleColor> _charColors = new Dictionary<char, ConsoleColor>()
+        
+        private readonly Dictionary<int, char> _tilesByState = new Dictionary<int, char>()
+            {
+                { 0, '0' },
+                { 1, 'H' },
+                { 2, 'M' },
+                { 3, 'B' },
+                { 4, 'P' },
+                { 5, 'W' },
+                { 6, 'D' },
+            };
+
+        private readonly Dictionary<char, ConsoleColor> _colorsByTile = new Dictionary<char, ConsoleColor>()
             {
                 { 'H', ConsoleColor.Cyan },
                 { 'M', ConsoleColor.Red },
-                { 'B', ConsoleColor.Red },
+                { 'B', ConsoleColor.DarkRed },
                 { 'P', ConsoleColor.Green },
                 { 'W', ConsoleColor.Yellow },
                 { 'D', ConsoleColor.Blue },
                 { '0', ConsoleColor.Gray }
             };
+        
 
         public void Draw(int[,] floorState, Dictionary<string, int> heroStats, Queue<string> messages)
         {
@@ -47,18 +60,9 @@ namespace DungeonCrawler.UI.Terminal
                 Console.Write("  ");
                 for (int j = 0; j < floorState.GetLength(1); j++)
                 {
-                    tile = floorState[i, j] switch
-                    {
-                        1 => 'H',
-                        2 => 'M',
-                        3 => 'B',
-                        4 => 'P',
-                        5 => 'W',
-                        6 => 'D',
-                        _ => '0',
-                    };
+                    tile = _tilesByState[floorState[i, j]];
+                    Console.ForegroundColor = _colorsByTile[tile];
 
-                    Console.ForegroundColor = _charColors[tile];
                     Console.Write(tile + " ");
                 }
 

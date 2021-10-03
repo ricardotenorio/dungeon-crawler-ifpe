@@ -29,8 +29,6 @@ namespace DungeonCrawler
             msg.Enqueue("another test");
 
             ui.Draw(state, stats, msg);
-
-            Console.WriteLine(msg.Count);
         }
     }
 }
