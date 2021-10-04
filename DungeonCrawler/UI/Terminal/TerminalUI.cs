@@ -3,25 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DungeonCrawler.Enums;
 
 namespace DungeonCrawler.UI.Terminal
 {
     class TerminalUI : IUserInterface
     {
-        private readonly string _border = "==============================================";
+        protected readonly string _border = "==============================================";
         
-        private readonly Dictionary<int, char> _tilesByState = new Dictionary<int, char>()
+        protected readonly Dictionary<int, char> _tilesByState = new Dictionary<int, char>()
             {
-                { 0, '0' },
-                { 1, 'H' },
-                { 2, 'M' },
-                { 3, 'B' },
-                { 4, 'P' },
-                { 5, 'W' },
-                { 6, 'D' },
+                { (int) GameObjectType.Empty, '0' },
+                { (int) GameObjectType.Hero, 'H' },
+                { (int) GameObjectType.Monster, 'M' },
+                { (int) GameObjectType.Boss, 'B' },
+                { (int) GameObjectType.Potion, 'P' },
+                { (int) GameObjectType.Weapon, 'W' },
+                { (int) GameObjectType.Destination, 'D' },
             };
 
-        private readonly Dictionary<char, ConsoleColor> _colorsByTile = new Dictionary<char, ConsoleColor>()
+        protected readonly Dictionary<char, ConsoleColor> _colorsByTile = new Dictionary<char, ConsoleColor>()
             {
                 { 'H', ConsoleColor.Cyan },
                 { 'M', ConsoleColor.Red },
@@ -42,7 +43,7 @@ namespace DungeonCrawler.UI.Terminal
             DrawMessages(messages);
         }
 
-        private void DrawStats(Dictionary<string, int> heroStats)
+        protected virtual void DrawStats(Dictionary<string, int> heroStats)
         {
             Console.WriteLine(_border);
             Console.Write($"Hero HP: {heroStats["hp"]} ");
@@ -51,7 +52,7 @@ namespace DungeonCrawler.UI.Terminal
             Console.WriteLine(_border);
         }
 
-        private void DrawFloor(int[,] floorState)
+        protected virtual void DrawFloor(int[,] floorState)
         {
             char tile;
 
@@ -72,7 +73,7 @@ namespace DungeonCrawler.UI.Terminal
             Console.ForegroundColor = ConsoleColor.Gray;
         }
 
-        private void DrawCommandHints()
+        protected virtual void DrawCommandHints()
         {
             Console.WriteLine(_border);
 
@@ -88,7 +89,7 @@ namespace DungeonCrawler.UI.Terminal
             Console.WriteLine(_border);
         }
 
-        private void DrawMessages(Queue<string> messages)
+        protected virtual void DrawMessages(Queue<string> messages)
         {
             while (messages.Any())
             {
