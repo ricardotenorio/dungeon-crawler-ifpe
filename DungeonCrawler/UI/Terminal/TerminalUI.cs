@@ -9,9 +9,9 @@ namespace DungeonCrawler.UI.Terminal
 {
     class TerminalUI : IUserInterface
     {
-        protected readonly string _border = "==============================================";
+        protected readonly string Border = "==============================================";
         
-        protected readonly Dictionary<int, char> _tilesByState = new Dictionary<int, char>()
+        protected readonly Dictionary<int, char> TilesByState = new Dictionary<int, char>()
             {
                 { (int) GameObjectType.Empty, '0' },
                 { (int) GameObjectType.Hero, 'H' },
@@ -22,7 +22,7 @@ namespace DungeonCrawler.UI.Terminal
                 { (int) GameObjectType.Destination, 'D' },
             };
 
-        protected readonly Dictionary<char, ConsoleColor> _colorsByTile = new Dictionary<char, ConsoleColor>()
+        protected readonly Dictionary<char, ConsoleColor> ColorsByTile = new Dictionary<char, ConsoleColor>()
             {
                 { 'H', ConsoleColor.Cyan },
                 { 'M', ConsoleColor.Red },
@@ -45,11 +45,11 @@ namespace DungeonCrawler.UI.Terminal
 
         protected virtual void DrawStats(Dictionary<string, int> heroStats)
         {
-            Console.WriteLine(_border);
+            Console.WriteLine(Border);
             Console.Write($"Hero HP: {heroStats["hp"]} ");
             Console.Write($"Hero Damage: {heroStats["damage"]} ");
             Console.WriteLine($"Hero Score: {heroStats["score"]}");
-            Console.WriteLine(_border);
+            Console.WriteLine(Border);
         }
 
         protected virtual void DrawFloor(int[,] floorState)
@@ -61,8 +61,8 @@ namespace DungeonCrawler.UI.Terminal
                 Console.Write("  ");
                 for (int j = 0; j < floorState.GetLength(1); j++)
                 {
-                    tile = _tilesByState[floorState[i, j]];
-                    Console.ForegroundColor = _colorsByTile[tile];
+                    tile = TilesByState[floorState[i, j]];
+                    Console.ForegroundColor = ColorsByTile[tile];
 
                     Console.Write(tile + " ");
                 }
@@ -75,7 +75,7 @@ namespace DungeonCrawler.UI.Terminal
 
         protected virtual void DrawCommandHints()
         {
-            Console.WriteLine(_border);
+            Console.WriteLine(Border);
 
             Console.Write($"[A] to move left.   ");
             Console.WriteLine($"[D] to move right.");
@@ -86,7 +86,7 @@ namespace DungeonCrawler.UI.Terminal
             Console.Write($"[Space] to attack.  ");
             Console.WriteLine($"[Esc] to exit.");
             
-            Console.WriteLine(_border);
+            Console.WriteLine(Border);
         }
 
         protected virtual void DrawMessages(Queue<string> messages)
@@ -96,7 +96,7 @@ namespace DungeonCrawler.UI.Terminal
                 Console.WriteLine(messages.Dequeue());
             }
 
-            Console.WriteLine(_border);
+            Console.WriteLine(Border);
         }
     }
 }
