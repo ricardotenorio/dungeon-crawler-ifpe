@@ -15,7 +15,7 @@ namespace DungeonCrawler.GameObjects.Character.Enemy
         public Boss(IAI ai, int hp, int attackValue, (int, int) position) :
             base(hp, attackValue, position)
         {
-            AI = ai;
+            this.AI = ai;
         }
 
     }
