@@ -7,7 +7,7 @@ using DungeonCrawler.Enums;
 
 namespace DungeonCrawler.UI.Terminal
 {
-    class TerminalUI : IUserInterface
+    public class TerminalUI : IUserInterface
     {
         protected readonly string Border = "==============================================";
         
