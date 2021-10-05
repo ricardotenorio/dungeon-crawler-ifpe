@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DungeonCrawler.UI
 {
-    interface IUserInterface
+    public interface IUserInterface
     {
         void Draw(int[,] floorState, Dictionary<string, int> heroStats, Queue<string> messages); 
     }
