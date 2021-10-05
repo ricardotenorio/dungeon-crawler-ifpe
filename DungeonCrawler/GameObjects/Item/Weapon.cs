@@ -1,4 +1,4 @@
-﻿using DungeonCrawler.GameObjects.Character.Playable;
+﻿using DungeonCrawler.GameObjects.Character;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +16,7 @@ namespace DungeonCrawler.GameObjects.Item
             this.EffectValue = effectValue;
         }
 
-        public void ApplyEffect(Hero targetCharacter)
+        public void ApplyEffect(IItemUser targetCharacter)
         {
             targetCharacter.RaiseAttack(EffectValue);
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DungeonCrawler.GameObjects.Character.Playable
 {
-    class Hero : BasicCharacter
+    class Hero : BasicCharacter, IItemUser
     {
 
         public Hero(int hp, int attackValue, (int, int) position) :
@@ -20,7 +20,7 @@ namespace DungeonCrawler.GameObjects.Character.Playable
 
         public void RaiseAttack(int attack)
         {
-            this.AttackValue = attack;
+            this.AttackValue += attack;
         }
 
     }
