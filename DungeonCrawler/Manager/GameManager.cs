@@ -35,6 +35,8 @@ namespace DungeonCrawler.Manager
             {
                 NextTurn();
             }
+
+            _ui.Draw(_state.FloorState, _state.GetHeroStats(), _state.Messages);
         }
 
         private void NextTurn()
@@ -59,7 +61,10 @@ namespace DungeonCrawler.Manager
                 }
             } while (!validInput);
 
-            _state.ExecutePlayerAction(_actionsByInput[key]);            
+            _state.ExecutePlayerAction(_actionsByInput[key]);
+
+
+            _continue = !_state.IsGameOver();
         }
 
         private ConsoleKey PlayerInput()

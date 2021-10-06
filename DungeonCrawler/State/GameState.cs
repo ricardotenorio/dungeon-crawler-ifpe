@@ -83,10 +83,14 @@ namespace DungeonCrawler.State
                     Hero.Attack(enemy);
                     Messages.Enqueue($"Caused {Hero.AttackValue} Damage to the enemy!");
                 }
+
+                RemoveDeadEnemies(nearbyEnemies);
             } else
             {
                 Hero.Move(action);
                 Hero.TakeDamage(1);
+                Messages.Enqueue($"Moved to {Hero.Position}");
+                CheckForItems();
             }
         }
 
@@ -98,6 +102,73 @@ namespace DungeonCrawler.State
             }
 
             return PlayerActionValidator.CanMove(action, Hero.Position, FloorState);
+        }
+
+        public bool IsGameOver()
+        {
+            if (Hero.HP < 1)
+            {
+                Messages.Enqueue("You died");
+
+                return true;
+            }
+
+            if (Hero.Position == (19, 19))
+            {
+                _score += Hero.HP;
+                Messages.Enqueue("You escaped!");
+                Messages.Enqueue($"Your score is {_score}");
+
+                return true;
+            }
+
+            return false;
+        }
+
+        private void CheckForItems()
+        {
+            BasicItem? itemToRemove = null;
+
+            foreach (var item in Items)
+            {
+                if (Hero.Position == item.Position)
+                {
+                    item.ApplyEffect(Hero as IItemUser);
+                    itemToRemove = item;
+
+                    Messages.Enqueue(
+                        itemToRemove is Potion 
+                        ? "You drank a potion" 
+                        : "You grabbed a weapon"
+                        );
+
+                    break;
+                }
+            }
+
+            Items.Remove(itemToRemove);
+        }
+
+        private void RemoveDeadEnemies(LinkedList<BasicCharacter> enemiesToCheck)
+        {
+            foreach (var enemy in enemiesToCheck)
+            {
+                if (enemy.HP < 1)
+                {
+                    Enemies.Remove(enemy);
+
+                    if (enemy is Boss)
+                    {
+                        _score += 15;
+                        Messages.Enqueue("You killed a boss");
+                    }
+                    else
+                    {
+                        _score += 5;
+                        Messages.Enqueue("You killed a monster");
+                    }
+                }
+            }
         }
 
         private LinkedList<BasicCharacter> ListNearbyEnemies()
