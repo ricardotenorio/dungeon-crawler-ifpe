@@ -12,10 +12,12 @@ namespace DungeonCrawler.State
 {
     public class GameState
     {
+        private int _score = 0;
         public int[,] FloorState { get; private set; }
         public BasicCharacter Hero { get; private set; }
         public LinkedList<BasicItem> Items { get; private set; }
         public LinkedList<BasicCharacter> Enemies { get; private set; }
+        public Queue<string> Messages { get; private set; }
 
         public GameState(
             BasicCharacter hero,
@@ -28,9 +30,19 @@ namespace DungeonCrawler.State
             this.Items = items;
             this.Enemies = enemies;
 
-            UpdateFloorState();
+            this.Messages = new Queue<string>();
         }
-        
+
+        public Dictionary<string, int> GetHeroStats()
+        {
+            return new Dictionary<string, int>()
+            {
+                { "hp", Hero.HP },
+                { "damage", Hero.AttackValue },
+                { "score", _score }
+            };
+        }
+            
         public void UpdateFloorState()
         {
             FloorState[19, 19] = (int) GameObjectType.Destination;
