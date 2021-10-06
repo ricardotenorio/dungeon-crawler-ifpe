@@ -47,43 +47,52 @@ namespace DungeonCrawler.State.Validator
 
         public static bool CanAttack((int line, int column) characterPosition, int[,] floorState)
         {
-            if (
-                characterPosition.line - 1 >= 0 
-                && floorState[characterPosition.line - 1, characterPosition.column] != (int)GameObjectType.Monster
-                || floorState[characterPosition.line - 1, characterPosition.column] != (int)GameObjectType.Boss
-               )
-            {
-                return false;
-            }
 
             if (
-                characterPosition.line + 1 <= 19
-                && floorState[characterPosition.line + 1, characterPosition.column] != (int)GameObjectType.Monster
-                || floorState[characterPosition.line + 1, characterPosition.column] != (int)GameObjectType.Boss
+                characterPosition.line -1 >= 0 
+                && (
+                    floorState[characterPosition.line - 1, characterPosition.column] == (int)GameObjectType.Monster
+                    || floorState[characterPosition.line - 1, characterPosition.column] == (int)GameObjectType.Boss
+                   )
                )
             {
-                return false;
+                return true;
+            } 
+            
+            if (
+                characterPosition.line + 1 <= 19
+                && (
+                    floorState[characterPosition.line + 1, characterPosition.column] == (int)GameObjectType.Monster
+                    || floorState[characterPosition.line + 1, characterPosition.column] == (int)GameObjectType.Boss
+                   )
+               )
+            {
+                return true;
             }
 
             if (
                 characterPosition.column - 1 >= 0
-                && floorState[characterPosition.line, characterPosition.column - 1] != (int)GameObjectType.Monster
-                || floorState[characterPosition.line, characterPosition.column - 1] != (int)GameObjectType.Boss
+                && (
+                    floorState[characterPosition.line, characterPosition.column - 1] == (int)GameObjectType.Monster
+                    || floorState[characterPosition.line, characterPosition.column - 1] == (int)GameObjectType.Boss
+                   )
                )
             {
-                return false;
+                return true;
             }
 
             if (
-                characterPosition.column + 1 >= 0
-                && floorState[characterPosition.line, characterPosition.column + 1] != (int)GameObjectType.Monster
-                || floorState[characterPosition.line, characterPosition.column + 1] != (int)GameObjectType.Boss
+                characterPosition.column + 1 <= 19
+                && (
+                    floorState[characterPosition.line, characterPosition.column + 1] == (int)GameObjectType.Monster
+                    || floorState[characterPosition.line, characterPosition.column + 1] == (int)GameObjectType.Boss
+                   )
                )
             {
-                return false;
+                return true;
             }
 
-            return true;
+            return false;
         }
     }
 }

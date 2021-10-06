@@ -74,23 +74,25 @@ namespace DungeonCrawler.State
 
         public void ExecutePlayerAction(CharacterAction action)
         {
-            if ((int)action == 4)
+            if (action == CharacterAction.Attack)
             {
                 LinkedList<BasicCharacter> nearbyEnemies = ListNearbyEnemies();
 
                 foreach (var enemy in nearbyEnemies)
                 {
                     Hero.Attack(enemy);
+                    Messages.Enqueue($"Caused {Hero.AttackValue} Damage to the enemy!");
                 }
             } else
             {
                 Hero.Move(action);
+                Hero.TakeDamage(1);
             }
         }
 
         public bool IsPlayerActionValid(CharacterAction action)
         {
-            if ((int) action == 4)
+            if (action == CharacterAction.Attack)
             {
                 return PlayerActionValidator.CanAttack(Hero.Position, FloorState);
             }

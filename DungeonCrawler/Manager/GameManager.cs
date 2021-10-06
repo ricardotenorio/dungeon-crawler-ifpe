@@ -53,7 +53,10 @@ namespace DungeonCrawler.Manager
                     System.Environment.Exit(0);
                 }
 
-                validInput = _state.IsPlayerActionValid(_actionsByInput[key]);
+                if (_actionsByInput.ContainsKey(key))
+                {
+                    validInput = _state.IsPlayerActionValid(_actionsByInput[key]);
+                }
             } while (!validInput);
 
             _state.ExecutePlayerAction(_actionsByInput[key]);            

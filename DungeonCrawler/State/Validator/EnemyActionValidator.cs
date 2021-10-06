@@ -47,37 +47,37 @@ namespace DungeonCrawler.State.Validator
         {
             if (
                 characterPosition.line - 1 >= 0
-                && floorState[characterPosition.line - 1, characterPosition.column] != (int)GameObjectType.Hero
+                && floorState[characterPosition.line - 1, characterPosition.column] == (int)GameObjectType.Hero
                )
             {
-                return false;
+                return true;
             }
 
             if (
                 characterPosition.line + 1 <= 19
-                && floorState[characterPosition.line + 1, characterPosition.column] != (int)GameObjectType.Hero
+                && floorState[characterPosition.line + 1, characterPosition.column] == (int)GameObjectType.Hero
                )
             {
-                return false;
+                return true;
             }
 
             if (
                 characterPosition.column - 1 >= 0
-                && floorState[characterPosition.line, characterPosition.column - 1] != (int)GameObjectType.Hero
+                && floorState[characterPosition.line, characterPosition.column - 1] == (int)GameObjectType.Hero
                )
             {
-                return false;
+                return true;
             }
 
             if (
-                characterPosition.column + 1 >= 0
-                && floorState[characterPosition.line, characterPosition.column + 1] != (int)GameObjectType.Hero
+                characterPosition.column + 1 <= 19
+                && floorState[characterPosition.line, characterPosition.column + 1] == (int)GameObjectType.Hero
                )
             {
-                return false;
+                return true;
             }
 
-            return true;
+            return false;
         }
     }
 }
