@@ -1,5 +1,6 @@
 ﻿using DungeonCrawler.Enums;
 using DungeonCrawler.GameObjects.Character;
+using DungeonCrawler.GameObjects.Character.Enemy;
 using DungeonCrawler.GameObjects.Item;
 using System;
 using System.Collections.Generic;
@@ -36,12 +37,22 @@ namespace DungeonCrawler.State
 
             foreach (var item in Items)
             {
-                FloorState[item.Position.Line, item.Position.Column] = (int)GameObjectType.Potion;
+                int itemType = 
+                    item is Potion ?
+                    (int)GameObjectType.Potion :
+                    (int)GameObjectType.Weapon;
+
+                FloorState[item.Position.Line, item.Position.Column] = itemType;
             }
 
             foreach (var enemy in Enemies)
             {
-                FloorState[enemy.Position.Line, enemy.Position.Column] = (int)GameObjectType.Monster;
+                int enemyType = 
+                    enemy is Monster ? 
+                    (int)GameObjectType.Monster : 
+                    (int)GameObjectType.Boss;
+
+                FloorState[enemy.Position.Line, enemy.Position.Column] = enemyType;
             }
 
             FloorState[Hero.Position.Line, Hero.Position.Column] = (int)GameObjectType.Hero;
