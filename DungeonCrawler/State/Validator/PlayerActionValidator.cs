@@ -21,10 +21,10 @@ namespace DungeonCrawler.State.Validator
                     characterPosition.column += 1;
                     break;
                 case CharacterAction.MoveUp:
-                    characterPosition.line += 1;
+                    characterPosition.line -= 1;
                     break;
                 case CharacterAction.MoveDown:
-                    characterPosition.line -= 1;
+                    characterPosition.line += 1;
                     break;
             }
 

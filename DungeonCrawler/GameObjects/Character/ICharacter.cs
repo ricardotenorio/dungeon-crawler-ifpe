@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DungeonCrawler.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,6 @@ namespace DungeonCrawler.GameObjects.Character
     {
         void TakeDamage(int damage);
         void Attack(ICharacter targetCharacter);
-        (int, int) Move();
+        void Move(CharacterAction action);
     }
 }

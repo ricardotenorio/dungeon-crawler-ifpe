@@ -1,4 +1,5 @@
-﻿using DungeonCrawler.Generator;
+﻿using DungeonCrawler.Enums;
+using DungeonCrawler.Generator;
 using DungeonCrawler.State;
 using DungeonCrawler.UI;
 using DungeonCrawler.UI.Terminal;
@@ -15,6 +16,14 @@ namespace DungeonCrawler.Manager
         private bool _continue = true;
         private GameState _state;
         private IUserInterface _ui;
+        private Dictionary<ConsoleKey, CharacterAction> _actionsByInput = new Dictionary<ConsoleKey, CharacterAction>()
+            {
+                { ConsoleKey.A, CharacterAction.MoveLeft},
+                { ConsoleKey.W, CharacterAction.MoveUp},
+                { ConsoleKey.D, CharacterAction.MoveRight},
+                { ConsoleKey.S, CharacterAction.MoveDown},
+                { ConsoleKey.Spacebar, CharacterAction.Attack},
+            };
 
         public void StartGame()
         {
@@ -30,10 +39,24 @@ namespace DungeonCrawler.Manager
 
         private void NextTurn()
         {
+            bool validInput = false;
             _state.UpdateFloorState();
             _ui.Draw(_state.FloorState, _state.GetHeroStats(), _state.Messages);
-            
-            
+            ConsoleKey key;
+
+            do
+            {
+                key = PlayerInput();
+
+                if (key == ConsoleKey.Escape)
+                {
+                    System.Environment.Exit(0);
+                }
+
+                validInput = _state.IsPlayerActionValid(_actionsByInput[key]);
+            } while (!validInput);
+
+            _state.ExecutePlayerAction(_actionsByInput[key]);            
         }
 
         private ConsoleKey PlayerInput()

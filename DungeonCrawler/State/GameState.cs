@@ -2,6 +2,7 @@
 using DungeonCrawler.GameObjects.Character;
 using DungeonCrawler.GameObjects.Character.Enemy;
 using DungeonCrawler.GameObjects.Item;
+using DungeonCrawler.State.Validator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +46,7 @@ namespace DungeonCrawler.State
             
         public void UpdateFloorState()
         {
+            FloorState = new int[20, 20];
             FloorState[19, 19] = (int) GameObjectType.Destination;
 
             foreach (var item in Items)
@@ -68,6 +70,50 @@ namespace DungeonCrawler.State
             }
 
             FloorState[Hero.Position.Line, Hero.Position.Column] = (int)GameObjectType.Hero;
+        }
+
+        public void ExecutePlayerAction(CharacterAction action)
+        {
+            if ((int)action == 4)
+            {
+                LinkedList<BasicCharacter> nearbyEnemies = ListNearbyEnemies();
+
+                foreach (var enemy in nearbyEnemies)
+                {
+                    Hero.Attack(enemy);
+                }
+            } else
+            {
+                Hero.Move(action);
+            }
+        }
+
+        public bool IsPlayerActionValid(CharacterAction action)
+        {
+            if ((int) action == 4)
+            {
+                return PlayerActionValidator.CanAttack(Hero.Position, FloorState);
+            }
+
+            return PlayerActionValidator.CanMove(action, Hero.Position, FloorState);
+        }
+
+        private LinkedList<BasicCharacter> ListNearbyEnemies()
+        {
+            LinkedList<BasicCharacter> nearbyEnemies = new LinkedList<BasicCharacter>();
+
+            foreach (var enemy in Enemies)
+            {
+                if (Hero.Position.Line == enemy.Position.Line 
+                    && Math.Abs(Hero.Position.Column - enemy.Position.Column) == 1
+                    || Hero.Position.Column == enemy.Position.Column
+                    && Math.Abs(Hero.Position.Line - enemy.Position.Line) == 1)
+                {
+                    nearbyEnemies.AddLast(enemy);
+                }
+            }
+
+            return nearbyEnemies;
         }
     }
 }
