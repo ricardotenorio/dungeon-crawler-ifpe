@@ -85,13 +85,15 @@ namespace DungeonCrawler.State
                 }
 
                 RemoveDeadEnemies(nearbyEnemies);
-            } else
+            } 
+            else
             {
                 Hero.Move(action);
-                Hero.TakeDamage(1);
                 Messages.Enqueue($"Moved to {Hero.Position}");
                 CheckForItems();
             }
+
+            Hero.TakeDamage(1);
         }
 
         public bool IsPlayerActionValid(CharacterAction action)
