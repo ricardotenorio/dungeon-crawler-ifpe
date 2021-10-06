@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DungeonCrawler.GameObjects.Item
 {
-    interface IItem
+    public interface IItem
     {
         void ApplyEffect(IItemUser targetCharacter);
     }
