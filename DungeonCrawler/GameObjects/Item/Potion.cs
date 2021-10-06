@@ -7,16 +7,13 @@ using System.Threading.Tasks;
 
 namespace DungeonCrawler.GameObjects.Item
 {
-    class Potion : IItem
+    class Potion : BasicItem
     {
-        public int EffectValue { get; private set; }
 
-        public Potion(int effectValue)
-        {
-            this.EffectValue = effectValue;
-        }
+        public Potion(int effectValue, (int, int) position): base (effectValue, position)
+        { }
 
-        public void ApplyEffect(IItemUser targetCharacter)
+        public override void ApplyEffect(IItemUser targetCharacter)
         {
             targetCharacter.RecoverHP(EffectValue);
         }

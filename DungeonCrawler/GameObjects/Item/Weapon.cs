@@ -7,16 +7,13 @@ using System.Threading.Tasks;
 
 namespace DungeonCrawler.GameObjects.Item
 {
-    class Weapon : IItem
+    class Weapon : BasicItem
     {
-        public int EffectValue { get; private set; }
 
-        public Weapon(int effectValue)
-        {
-            this.EffectValue = effectValue;
-        }
+        public Weapon(int effectValue, (int, int) position): base (effectValue, position)
+        { }
 
-        public void ApplyEffect(IItemUser targetCharacter)
+        public override void ApplyEffect(IItemUser targetCharacter)
         {
             targetCharacter.RaiseAttack(EffectValue);
         }
